@@ -9,3 +9,9 @@ users:
     last: Wright
     zip: 11029
     email: stacey.is.wright@gmail.com
+
+logging:
+  appenders:
+    - type: console
+      layout:
+        type: json
