@@ -1,0 +1,11 @@
+users:
+  - id: 1
+    first: Billy
+    last: Fisher
+    zip: 97078
+    email: billyjfisher@gmail.com
+  - id: 2
+    first: Stacey
+    last: Wright
+    zip: 11029
+    email: stacey.is.wright@gmail.com
