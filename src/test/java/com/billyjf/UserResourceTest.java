@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.ws.rs.core.Response.Status;
 import static org.junit.Assert.assertEquals;
 
 public class UserResourceTest {
@@ -30,5 +31,13 @@ public class UserResourceTest {
         userResource.createUser(janTheMan);
 
         assertEquals(janTheMan, userResource.listUsers().get(1));
+    }
+
+    @Test
+    public void createUserReturnsConflictOnDuplicate() {
+        User janTheMan = new User(2, "Jan", "Spooner", "12345", "jantheman@someprovider.com");
+        userResource.createUser(janTheMan);
+
+        assertEquals(Status.CONFLICT.getStatusCode(), userResource.createUser(janTheMan).getStatus());
     }
 }
