@@ -43,4 +43,13 @@ public class User {
     public String getEmail() {
         return email;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        User user = (User)obj;
+        return this.first.equals(user.first) &&
+                this.last.equals(user.last) &&
+                this.zip.equals(user.zip) &&
+                this.email.equals(user.email);
+    }
 }
