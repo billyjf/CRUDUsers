@@ -1,7 +1,7 @@
 # CRUDUsers
 Sample built on https://www.dropwizard.io/ and tested on JDK 12 and Gradle 5.2.1. Users deserialized from `server.yml` and maintained in memory.
 
-  * UserResource allows clients to ✅ create, read, update, delete or ✅ list users.
+  * UserResource allows clients to ✅ create, ✅ read, update, delete or ✅ list users.
   * ✅ A list of maps is used to track users by their ids.
   * ✅ Structured logging has been configured for the `console`.
   * ✅ Routes are `@Timed` using Dropwizard codahale metric annotations.
@@ -49,6 +49,20 @@ Gives conflict due to duplicate user.
 ```
 $ curl --request POST --header 'Content-Type: application/json' --data "$(cat new_user.json)" -i 2>/dev/null localhost:8080/users | head -n 1
   HTTP/1.1 409 Conflict
+```
+
+#### Read
+```$ curl localhost:8080/users/1 2>/dev/null | jq .
+{
+  "id": 1,
+  "first": "Billy",
+  "last": "Fisher",
+  "zip": "97078",
+  "email": "billyjfisher@gmail.com"
+}
+
+$ curl localhost:8080/users/3 -i 2>/dev/null | head -n 1
+HTTP/1.1 404 Not Found
 ```
 
 ### Health
