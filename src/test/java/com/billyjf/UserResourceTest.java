@@ -76,4 +76,17 @@ public class UserResourceTest {
         Response updateResponse = userResource.updateUser(1, billy);
         assertEquals(Status.CONFLICT.getStatusCode(), updateResponse.getStatus());
     }
+
+    @Test
+    public void deleteUser() {
+        Response response = userResource.deleteUser(1);
+        assertEquals(0, userResource.listUsers().stream().filter(u -> u.getId() == 1).count());
+        assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void deleteUserThatDoesNotExist() {
+        Response response = userResource.deleteUser(2);
+        assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+    }
 }

@@ -4,6 +4,7 @@ import com.billyjf.api.User;
 import com.codahale.metrics.annotation.Timed;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -85,6 +86,21 @@ public class UserResource {
             else
                 response = status(Status.CONFLICT).build();
         }
+        else
+            response = status(Status.NOT_FOUND).build();
+
+        return response;
+    }
+
+    @DELETE
+    @Path("/users/{id}")
+    @Timed
+    public Response deleteUser(@PathParam("id") long id) {
+        Response response = status(Status.NO_CONTENT).build();
+        Optional<User> userToDelete = users.stream().filter(u -> u.getId() == id).findFirst();
+
+        if(userToDelete.isPresent())
+            users.remove(userToDelete.get());
         else
             response = status(Status.NOT_FOUND).build();
 

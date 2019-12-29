@@ -1,7 +1,7 @@
 # CRUDUsers
 Sample built on https://www.dropwizard.io/ and tested on JDK 12 and Gradle 5.2.1. Users deserialized from `server.yml` and maintained in memory.
 
-  * UserResource allows clients to ✅ create, ✅ read, ✅ update, delete or ✅ list users.
+  * ✅ UserResource allows clients to ✅ create, ✅ read, ✅ update, ✅ delete or ✅ list users.
   * ✅ A list of maps is used to track users by their ids.
   * ✅ Structured logging has been configured for the `console`.
   * ✅ Routes are `@Timed` using Dropwizard codahale metric annotations.
@@ -91,6 +91,15 @@ $ curl localhost:8080/users/2 2>/dev/null | jq .
   "zip": "97221",
   "email": "stefani.germanotta@someprovider.com"
 }
+```
+
+#### Delete
+```
+$ curl --request DELETE localhost:8080/users/2 -i 2>/dev/null | head -n 1
+HTTP/1.1 204 No Content
+
+$ curl --request DELETE localhost:8080/users/2 -i 2>/dev/null | head -n 1
+HTTP/1.1 404 Not Found
 ```
 
 ### Health
