@@ -44,11 +44,11 @@ $ curl localhost:8080/users 2>/dev/null | jq .
 ```
 
 #### Create
-Gives conflict due to duplicate user.
-
 ```
-$ curl --request POST --header 'Content-Type: application/json' --data "$(cat new_user.json)" -i 2>/dev/null localhost:8080/users | head -n 1
-  HTTP/1.1 409 Conflict
+$ curl --request POST --header 'Content-Type: application/json' --data "$(cat unique_user.json)" -i 2>/dev/null localhost:8080/users | head -n 1
+HTTP/1.1 200 OK
+$ curl --request POST --header 'Content-Type: application/json' --data "$(cat unique_user.json)" -i 2>/dev/null localhost:8080/users | head -n 1
+HTTP/1.1 409 Conflict
 ```
 
 #### Read
