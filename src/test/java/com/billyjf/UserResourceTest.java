@@ -54,4 +54,26 @@ public class UserResourceTest {
 
         assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
+
+    @Test
+    public void updateUserThatExists() {
+        assertEquals(billy, userResource.getUser(1));
+        Response response = userResource.updateUser(1, janTheMan);
+        assertEquals(janTheMan, userResource.getUser(1));
+        assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void updateUserThatDoesNotExist() {
+        final Response unknownUserResponse = (Response)userResource.getUser(2);
+        assertEquals(Status.NOT_FOUND.getStatusCode(), unknownUserResponse.getStatus());
+        Response updateResponse = userResource.updateUser(2, billy);
+        assertEquals(Status.NOT_FOUND.getStatusCode(), updateResponse.getStatus());
+    }
+
+    @Test
+    public void updateUserThatWouldCauseDuplicate() {
+        Response updateResponse = userResource.updateUser(1, billy);
+        assertEquals(Status.CONFLICT.getStatusCode(), updateResponse.getStatus());
+    }
 }

@@ -1,7 +1,7 @@
 # CRUDUsers
 Sample built on https://www.dropwizard.io/ and tested on JDK 12 and Gradle 5.2.1. Users deserialized from `server.yml` and maintained in memory.
 
-  * UserResource allows clients to ✅ create, ✅ read, update, delete or ✅ list users.
+  * UserResource allows clients to ✅ create, ✅ read, ✅ update, delete or ✅ list users.
   * ✅ A list of maps is used to track users by their ids.
   * ✅ Structured logging has been configured for the `console`.
   * ✅ Routes are `@Timed` using Dropwizard codahale metric annotations.
@@ -52,7 +52,8 @@ $ curl --request POST --header 'Content-Type: application/json' --data "$(cat ne
 ```
 
 #### Read
-```$ curl localhost:8080/users/1 2>/dev/null | jq .
+```
+$ curl localhost:8080/users/1 2>/dev/null | jq .
 {
   "id": 1,
   "first": "Billy",
@@ -63,6 +64,33 @@ $ curl --request POST --header 'Content-Type: application/json' --data "$(cat ne
 
 $ curl localhost:8080/users/3 -i 2>/dev/null | head -n 1
 HTTP/1.1 404 Not Found
+```
+
+#### Update
+```
+$ curl localhost:8080/users/2 2>/dev/null | jq .
+{
+  "id": 2,
+  "first": "Stacey",
+  "last": "Wright",
+  "zip": "11029",
+  "email": "stacey.is.wright@gmail.com"
+}
+
+$ curl --request PUT --header 'Content-Type: application/json' --data "$(cat new_user.json)" localhost:8080/users/2 -i 2>/dev/null | head -n 1
+HTTP/1.1 409 Conflict
+
+$ curl --request PUT --header 'Content-Type: application/json' --data "$(cat unique_user.json)" localhost:8080/users/2 -i 2>/dev/null | head -n 1
+HTTP/1.1 204 No Content
+
+$ curl localhost:8080/users/2 2>/dev/null | jq .
+{
+  "id": 2,
+  "first": "Stefani",
+  "last": "Germanotta",
+  "zip": "97221",
+  "email": "stefani.germanotta@someprovider.com"
+}
 ```
 
 ### Health

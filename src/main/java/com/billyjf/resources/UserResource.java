@@ -6,6 +6,7 @@ import com.codahale.metrics.annotation.Timed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -61,5 +62,32 @@ public class UserResource {
             return first.get();
         else
             return status(Status.NOT_FOUND).build();
+    }
+
+    @PUT
+    @Path("/users/{id}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Timed
+    public Response updateUser(@PathParam("id") long id, User user) {
+        final Optional<User> firstMatch = users.stream().filter(u -> u.getId() == id).findFirst();
+        Response response;
+
+        if(firstMatch.isPresent()) {
+            final User oldUser = firstMatch.get();
+            final User prospectiveUser = new User(oldUser.getId(), user.getFirst(), user.getLast(), user.getZip(), user.getEmail());
+
+            if(users.stream().noneMatch(u -> u.equals(prospectiveUser))) {
+                users.remove(oldUser);
+                users.add(prospectiveUser);
+
+                response = status(Status.NO_CONTENT).build();
+            }
+            else
+                response = status(Status.CONFLICT).build();
+        }
+        else
+            response = status(Status.NOT_FOUND).build();
+
+        return response;
     }
 }
