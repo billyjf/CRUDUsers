@@ -1,3 +1,5 @@
+[![Build Status](https://www.travis-ci.com/billyjf/CRUDUsers.svg?branch=master)](https://www.travis-ci.com/billyjf/CRUDUsers)
+
 # CRUDUsers
 Sample built on https://www.dropwizard.io/ and tested on JDK 12 and Gradle 5.2.1. Users deserialized from `server.yml` and maintained in memory.
 
